@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To Do List</title>
+</head>
+<body>
+
+  <h3>To-Do List</h3>
+
+  <input type="text" id="taskInput">
+  <button onclick="addTask()">Add</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    const tasks = [];
+
+    function addTask() {
+      const task = document.getElementById("taskInput").value;
+
+      // add to array
+      tasks.push(task);
+
+      // display dynamically
+      const list = document.getElementById("taskList");
+      list.innerHTML = "";
+
+      tasks.forEach(task => {
+        const li = document.createElement("li");
+        li.textContent = task;
+        list.appendChild(li);
+      });
+    }
+  </script>
+
+</body>
+</html>
