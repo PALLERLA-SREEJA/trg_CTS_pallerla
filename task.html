@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Records Operations</title>
+</head>
+<body>
+
+<h2>All Student Names</h2>
+<ul id="listName"></ul>
+
+<h2>Students Scored Above 60</h2>
+<ul id="above60"></ul>
+
+<h2>Department Count</h2>
+<p id="count-dept"></p>
+
+<h2>Highest Marks Student</h2>
+<p id="highestMarks"></p>
+
+<h2>All Students Table</h2>
+<table border="1" cellpadding="8">
+<thead>
+<tr>
+<th>Name</th>
+<th>Marks</th>
+<th>Department</th>
+</tr>
+</thead>
+<tbody id="studentTable"></tbody>
+</table>
+
+<h2>Average Marks</h2>
+<p id="avgMarks"></p>
+
+<h2>Only CSE Students</h2>
+<ul id="cseList"></ul>
+
+<h2>Sorted Students</h2>
+<ul id="sortedMarks"></ul>
+
+<h2>After Adding New Student</h2>
+<ul id="updatedList"></ul>
+
+
+<script>
+const students = [
+  { id: 1, name: "Amit", marks: 78, department: "CSE" },
+  { id: 2, name: "Priya", marks: 92, department: "ECE" },
+  { id: 3, name: "Rahul", marks: 45, department: "MECH" },
+  { id: 4, name: "Sneha", marks: 66, department: "CSE" },
+  { id: 5, name: "Kiran", marks: 88, department: "ECE" },
+  { id: 6, name: "Ravi", marks: 30, department: "IT" },
+  { id: 7, name: "Suma", marks: 55, department: "EEE" },
+  { id: 8, name: "Ajay", marks: 99, department: "CSE" }
+];
+
+// Display names
+const nameList = document.getElementById("listName");
+students.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s.name;
+    nameList.appendChild(li);
+});
+
+// student marks
+const above60 = document.getElementById("above60");
+students.filter(s => s.marks > 60).forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = `${s.name} - ${s.marks}`;
+    above60.appendChild(li);
+});
+
+// department name
+const DeptCount = document.getElementById("count-dept");
+
+let cseCount = 0;
+let eceCount = 0;
+let mechCount = 0;
+let itCount = 0;
+let eeeCount = 0;
+
+students.forEach(s => {
+    if (s.department === "CSE") {
+        cseCount++;
+    } else if (s.department === "MECH") {
+        mechCount++;
+    } else if (s.department === "EEE") {
+        eeeCount++;
+    } else if (s.department === "ECE") {
+        eceCount++;
+    } else {
+        itCount++;
+    }
+});
+
+DeptCount.textContent = 
+`CSE: ${cseCount}, ECE: ${eceCount}, MECH: ${mechCount}, EEE: ${eeeCount}, IT: ${itCount}`;
+const topper = students.reduce((a,b) => a.marks > b.marks ? a : b);
+document.getElementById("highestMarks").textContent =
+ `${topper.name} → ${topper.marks} Marks`;
+
+//  Display students  & highlight failed
+const tableBody = document.getElementById("studentTable");
+students.forEach(s => {
+  const tr = document.createElement("tr");
+  if (s.marks < 50) tr.style.color = "red"; 
+  tr.innerHTML = `<td>${s.name}</td><td>${s.marks}</td><td>${s.department}</td>`;
+  tableBody.appendChild(tr);
+});
+
+//  Average marks
+const avg = students.reduce((sum,s) => sum + s.marks, 0) / students.length;
+document.getElementById("avgMarks").textContent = avg.toFixed(2);
+
+//  Only CSE students
+const cseList = document.getElementById("cseList");
+students.filter(s => s.department === "CSE").forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = `${s.name} - ${s.marks}`;
+    cseList.appendChild(li);
+});
+
+//  Sort 
+const sorted = [...students].sort((a,b) => b.marks - a.marks);
+const sortedList = document.getElementById("sortedMarks");
+sorted.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = `${s.name} - ${s.marks}`;
+    sortedList.appendChild(li);
+});
+
+//  new student & Update List
+students.push({ id: 9, name: "Deepa", marks: 70, department: "IT" });
+const updatedList = document.getElementById("updatedList");
+students.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = `${s.name} - ${s.marks}`;
+    updatedList.appendChild(li);
+});
+
+</script>
+
+</body>
+</html>
